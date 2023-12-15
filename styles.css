@@ -14,7 +14,6 @@ body {
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  padding-right: 50px;
 }
 
 button {
@@ -28,14 +27,8 @@ button {
 }
 
 #quizSection {
-  display: inline-block;
-    max-width: 800px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  padding-right: 50px;
+  display: flex;
+  flex-direction: row;
 }
 
 .question-option-container {
@@ -70,18 +63,22 @@ button {
 
 /* styles.css */
 
+.explanation-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .explanation-section {
-  display: inline;
-  border-radius: 5px; /* Border radius for explanation section */
+  border-radius: 5px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 50px;
-  margin-left: 20px;
-  height: auto; /* Set initial height to auto */
-  overflow: hidden; /* Hide the overflow to prevent unwanted scrolling */
-  transition: height 0.3s ease; /* Add a smooth transition effect */
+  padding: 20px;
+  margin-top: 20px; /* Add margin for spacing */
+  height: auto;
+  overflow: hidden;
+  transition: height 0.3s ease;
 }
 
 .expanded {
-  height: auto; /* Expand the height when the container has the 'expanded' class */
+  height: auto;
 }

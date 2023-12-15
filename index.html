@@ -1,7 +1,6 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,71 +20,86 @@
       // Show the quiz section
       document.getElementById('quizSection').style.display = 'flex'; // Set display to flex for horizontal layout
     }
-</script>
-    <script>
-  function displayExplanation(optionText, optionNumber) {
-    var explanations = {
-      'Option A': localStorage.getItem('explanationA'),
-      'Option B': localStorage.getItem('explanationB'),
-      'Option C': localStorage.getItem('explanationC'),
-      'Option D': localStorage.getItem('explanationD')
-    };
-
-    var explanation = explanations[optionText] || "Explanation not available";
-    var explanationDiv = document.getElementById('explanationText');
-    explanationDiv.textContent = ""; // Placeholder text
-    explanationDiv.classList.remove('expanded'); // Collapse the box
-    resetHighlight();
-
-    // Type out the explanation on hover
-    typeWriter(explanation, 0, explanationDiv);
-
-    // Highlight the selected option
-    document.getElementById('optionButton' + optionNumber).classList.add('highlight');
-  }
-
-  function typeWriter(text, index, destination) {
-    if (index < text.length) {
-      destination.textContent += text.charAt(index);
-      index++;
-      setTimeout(function() {
-        typeWriter(text, index, destination);
-      }, 50); // Adjust the typing speed (milliseconds)
-    } else {
-      destination.classList.add('expanded'); // Expand the box after typing out
-    }
-  }
-
-  function resetHighlight() {
-    // Reset highlighting for all options
-    for (var i = 1; i <= 4; i++) {
-      document.getElementById('optionButton' + i).classList.remove('highlight');
-    }
-  }
-</script>
-
   </script>
+
+  <script>
+    function displayExplanation(optionText, optionNumber) {
+      var explanations = {
+        'Option A': localStorage.getItem('explanationA'),
+        'Option B': localStorage.getItem('explanationB'),
+        'Option C': localStorage.getItem('explanationC'),
+        'Option D': localStorage.getItem('explanationD')
+      };
+
+      var explanation = explanations[optionText] || "Explanation not available";
+      var explanationDiv = document.getElementById('explanationText');
+      explanationDiv.textContent = ""; // Placeholder text
+      explanationDiv.classList.remove('expanded'); // Collapse the box
+      resetHighlight();
+
+      // Type out the explanation on hover
+      typeWriter(explanation, 0, explanationDiv);
+
+      // Highlight the selected option
+      document.getElementById('optionButton' + optionNumber).classList.add('highlight');
+    }
+
+    function typeWriter(text, index, destination) {
+      if (index < text.length) {
+        destination.textContent += text.charAt(index);
+        index++;
+
+        // Check if the text is being typed, and expand to the right
+        if (index % 10 === 0) {
+          destination.style.width = destination.scrollWidth + 10 + 'px'; // Expand width
+        }
+
+        setTimeout(function () {
+          typeWriter(text, index, destination);
+        }, 50); // Adjust the typing speed (milliseconds)
+      } else {
+        destination.style.width = 'auto'; // Reset width to 'auto'
+        destination.classList.add('expanded'); // Expand the box after typing out
+      }
+    }
+
+    function resetHighlight() {
+      // Reset highlighting for all options
+      for (var i = 1; i <= 4; i++) {
+        document.getElementById('optionButton' + i).classList.remove('highlight');
+      }
+    }
+  </script>
+
 </head>
+
 <body>
   <div class="container">
     <button onclick="displayQuestion()">Q</button>
-    <div id="quizSection" style="display: none; flex-direction: row;"> <!-- Set flex-direction to row -->
+    <div id="quizSection" style="display: none; flex-direction: row;">
       <div class="question-option-container">
         <div id="questionText"></div>
 
         <!-- Example usage in HTML -->
         <div class="option-list">
-          <button class="optionButton" onmouseover="displayExplanation('Option A', 1)" id="optionButton1"></button>
-          <button class="optionButton" onmouseover="displayExplanation('Option B', 2)" id="optionButton2"></button>
-          <button class="optionButton" onmouseover="displayExplanation('Option C', 3)" id="optionButton3"></button>
-          <button class="optionButton" onmouseover="displayExplanation('Option D', 4)" id="optionButton4"></button>
+          <button class="optionButton" onclick="displayExplanation('Option A', 1)" id="optionButton1"></button>
+          <button class="optionButton" onclick="displayExplanation('Option B', 2)" id="optionButton2"></button>
+          <button class="optionButton" onclick="displayExplanation('Option C', 3)" id="optionButton3"></button>
+          <button class="optionButton" onclick="displayExplanation('Option D', 4)" id="optionButton4"></button>
         </div>
-      </div>
-
-      <div id="explanationSection" class="explanation-section"> <!-- Add margin for spacing -->
-        <p id="explanationText" class="explanation-placeholder"></p>
       </div>
     </div>
   </div>
+
+  <!-- Separate container for the explanation section -->
+  <div class="explanation-container">
+    <div id="explanationSection" class="explanation-section">
+      <p id="explanationText" class="explanation-placeholder"></p>
+    </div>
+  </div>
+
+  <!-- ... (rest of the code) -->
+
 </body>
+
 </html>
