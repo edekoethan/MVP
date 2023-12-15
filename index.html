@@ -1,97 +1,91 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>extempo.com</title>
-   <link rel="stylesheet" type="text/css" href="styles.css">
-<style>
-    /* Base styles for login container */
-.login-container {
-    width: 400px;
-    margin: 0 auto;
-    padding: 80px;
-    background-color: #f2f2f2;
-    text-align: center;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Quiz Page</title>
+  <script>
+    function displayQuestion() {
+      var question = localStorage.getItem('question');
+      var options = JSON.parse(localStorage.getItem('options'));
+      document.getElementById('questionText').textContent = question;
 
-/* Style for the logo */
-.login-container img {
-    width: 200px;
-}
+      // Display options in the corresponding textboxes
+      for (var i = 0; i < options.length; i++) {
+        document.getElementById('optionButton' + (i + 1)).textContent = options[i];
+      }
 
-/* Style for email and password input fields */
-.login-container input[type="email"],
-.login-container input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-}
-
-/* Style for the submit button */
-.login-container .submit-button {
-    background-color: rgb(176, 5, 5);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-/* Hover effect for the submit button */
-.login-container .submit-button:hover {
-    background-color: #ff0000;
-}
-
-/* Style for the "Remember Me" checkbox */
-.remember-me {
-    text-align: center;
-    padding: 10px;
-}
-
-.remember-me input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-/* Responsive styles for screens 768px and smaller */
-@media (max-width: 768px) {
-    .login-container {
-        width: 80%;
-        padding: 40px;
+      // Show the quiz section
+      document.getElementById('quizSection').style.display = 'flex'; // Set display to flex for horizontal layout
     }
-}
+</script>
+    <script>
+  function displayExplanation(optionText, optionNumber) {
+    var explanations = {
+      'Option A': localStorage.getItem('explanationA'),
+      'Option B': localStorage.getItem('explanationB'),
+      'Option C': localStorage.getItem('explanationC'),
+      'Option D': localStorage.getItem('explanationD')
+    };
 
-/* Responsive styles for screens 480px and smaller */
-@media (max-width: 480px) {
-    .login-container {
-        width: 90%;
-        padding: 20px;
-    }
+    var explanation = explanations[optionText] || "Explanation not available";
+    var explanationDiv = document.getElementById('explanationText');
+    explanationDiv.textContent = ""; // Placeholder text
+    explanationDiv.classList.remove('expanded'); // Collapse the box
+    resetHighlight();
 
-    .login-container img {
-        width: 100px;
+    // Type out the explanation on hover
+    typeWriter(explanation, 0, explanationDiv);
+
+    // Highlight the selected option
+    document.getElementById('optionButton' + optionNumber).classList.add('highlight');
+  }
+
+  function typeWriter(text, index, destination) {
+    if (index < text.length) {
+      destination.textContent += text.charAt(index);
+      index++;
+      setTimeout(function() {
+        typeWriter(text, index, destination);
+      }, 50); // Adjust the typing speed (milliseconds)
+    } else {
+      destination.classList.add('expanded'); // Expand the box after typing out
     }
+  }
+
+  function resetHighlight() {
+    // Reset highlighting for all options
+    for (var i = 1; i <= 4; i++) {
+      document.getElementById('optionButton' + i).classList.remove('highlight');
     }
-</style>
+  }
+</script>
+
+  </script>
 </head>
 <body>
-    <div class="homepage-container">
-        <!-- Content for homepage goes here -->
-        <div class="login-container">
-            <img src="./images/official-logo-2.png" alt="official-logo-2">
-            <input type="email" placeholder="Email">
-            <input type="password" placeholder="Password">
-            <div class="remember-me">
-                <input type="checkbox" id="rememberMe">
-                <label for="rememberMe">Remember Me</label>
-            </div>
-            <button class="submit-button">Submit</button>
-            <p>Forgot password? Click <a href="#">here</a></p>
-            <p><a href="#">Create account</a></p>
+  <div class="container">
+    <button onclick="displayQuestion()">Q</button>
+    <div id="quizSection" style="display: none; flex-direction: row;"> <!-- Set flex-direction to row -->
+      <div class="question-option-container">
+        <div id="questionText"></div>
+
+        <!-- Example usage in HTML -->
+        <div class="option-list">
+          <button class="optionButton" onmouseover="displayExplanation('Option A', 1)" id="optionButton1"></button>
+          <button class="optionButton" onmouseover="displayExplanation('Option B', 2)" id="optionButton2"></button>
+          <button class="optionButton" onmouseover="displayExplanation('Option C', 3)" id="optionButton3"></button>
+          <button class="optionButton" onmouseover="displayExplanation('Option D', 4)" id="optionButton4"></button>
         </div>
+      </div>
+
+      <div id="explanationSection" class="explanation-section"> <!-- Add margin for spacing -->
+        <p id="explanationText" class="explanation-placeholder"></p>
+      </div>
     </div>
+  </div>
 </body>
 </html>
