@@ -56,7 +56,7 @@
 
         setTimeout(function () {
           typeWriter(text, index, destination);
-        }, 50); // Adjust the typing speed (milliseconds)
+        }, 30); // Adjust the typing speed (milliseconds)
       } else {
         destination.style.width = 'auto'; // Reset width to 'auto'
         destination.classList.add('expanded'); // Expand the box after typing out
@@ -75,6 +75,10 @@
 
 <body>
   <div class="container">
+    <div class="bigheading">
+      <h1 style="color: #45a1a9; transform: scale(0.7); transform-origin: left; text-align: center;">@ThePharmacistPreacher</h1>
+    </div>
+    
     <button onclick="displayQuestion()">Q</button>
     <div id="quizSection" style="display: none; flex-direction: row;">
       <div class="question-option-container">
